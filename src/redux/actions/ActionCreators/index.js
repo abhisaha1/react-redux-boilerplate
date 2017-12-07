@@ -1,0 +1,1 @@
+export { getWelcomeData } from "./Welcome";
