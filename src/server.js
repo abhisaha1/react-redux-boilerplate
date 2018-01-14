@@ -1,7 +1,4 @@
 import express from "express";
-import path from "path";
-import Request from "Request";
-import fs from "fs";
 var bodyParser = require("body-parser");
 import serverRendering from "./serverRendering";
 
@@ -37,7 +34,6 @@ if (process.env.NODE_ENV == "dev") {
     );
 }
 
-/* Hacks for staging */
 app.use(serverRendering);
 
 let port = 4040;

@@ -1,5 +1,9 @@
+import React from "react";
 import Main from "./containers/Main";
-
+// stateless
+const Welcome = () => {
+    return <div>"Welcome component"</div>;
+};
 const routes = [
     {
         path: "/",
@@ -7,8 +11,8 @@ const routes = [
         exact: true
     },
     {
-        path: "/conversations",
-        component: Main,
+        path: "/welcome",
+        component: Welcome,
         exact: true
     }
 ];

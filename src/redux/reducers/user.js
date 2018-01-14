@@ -1,19 +1,16 @@
 import ActionTypes from "../actions/ActionTypes";
 
 const initialState = {
-    data: "Initial State!",
-    user: {},
-    loading: true
+    name: "Unknown"
 };
 
 export default function data(state = initialState, action) {
     switch (action.type) {
-        case ActionTypes.WELCOME:
+        case ActionTypes.LOGIN:
             return {
                 ...state,
-                data: action.payload
+                name: action.payload
             };
-
         default:
             break;
     }

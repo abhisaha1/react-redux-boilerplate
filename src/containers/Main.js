@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { getWelcomeData } from "../redux/actions/ActionCreators";
+import { getWelcomeData, loginAction } from "../redux/actions/ActionCreators";
+import Login, { LoginHeader } from "../components/Login";
 
 class Main extends Component {
     constructor(props) {
@@ -13,20 +14,30 @@ class Main extends Component {
     }
 
     render() {
-        return <div onClick={this.handleClick}>{this.props.welcome.data}</div>;
+        return (
+            <div onClick={this.handleClick}>
+                {this.props.welcome.data}
+                <br />
+                {this.props.user.name}
+                <LoginHeader />
+                <Login {...this.props} />
+            </div>
+        );
     }
 }
 
 const mapStateToProps = state => {
     return {
-        welcome: state.welcome
+        welcome: state.welcome,
+        user: state.user
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators(
         {
-            getWelcomeData
+            getWelcomeData,
+            loginAction
         },
         dispatch
     );
