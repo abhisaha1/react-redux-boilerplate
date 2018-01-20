@@ -9,54 +9,19 @@ import ReactDOM from "react-dom/server";
 import { StaticRouter, Route } from "react-router";
 import { matchPath } from "react-router-dom";
 import { Provider } from "react-redux";
-import routes from "./routes";
 import store from "./redux/createStore";
 
 import App from "./containers/App";
 
 module.exports = function(req, res) {
-    let promises_ = [];
-    const matches = routes.reduce((matches, route) => {
-        const match = matchPath(req.url, route.path, route);
-        if (match) {
-            if (
-                route.component.fetchData &&
-                route.component.fetchData(match).length > 0
-            ) {
-                promises_ = route.component
-                    .fetchData(match)
-                    .map(req => req(store.dispatch, store.getState()));
-            } else {
-                promises_ = [Promise.resolve({})];
-            }
-        }
-        return matches;
-    }, []);
-
-    if (matches.length === 0) {
-        res.status(404);
-    }
-    //const promises = matches.map(match => match.promise);
     var bundle =
         process.env.NODE_ENV == "production"
             ? "/js/src-bundle.js"
             : "/static/src-bundle.js";
-    Promise.all(promises_).then(
-        () => {
-            const data = store.getState();
-            const context = {};
-            const renderedComponent = ReactDOM.renderToString(
-                <StaticRouter context={context} location={req.url}>
-                    <Provider store={store}>
-                        <App routes={routes} initialData={data} />
-                    </Provider>
-                </StaticRouter>
-            );
 
-            if (context.url) {
-                res.redirect(context.url);
-            } else {
-                const HTML = `
+    const data = store.getState();
+
+    const HTML = `
                 <!DOCTYPE html>
                 <html lang="en">
                   <head>
@@ -70,7 +35,7 @@ module.exports = function(req, res) {
                     <meta name="mobile-web-app-capable" content="yes">
                   </head>
                   <body id="client">
-                    <div id="app">${renderedComponent}</div>
+                    <div id="app"></div>
                     <script type="application/javascript">
                        window.__INITIAL_STATE__ = ${JSON.stringify(data)};
                        window.ENV = "${process.env.NODE_ENV}";
@@ -79,13 +44,5 @@ module.exports = function(req, res) {
                   </body>
                 </html>
             `;
-                res.send(HTML);
-            }
-        },
-        error => {
-            //TODO: Better error handling
-            console.log(error);
-            //handleError(res, error);
-        }
-    );
+    res.send(HTML);
 };
