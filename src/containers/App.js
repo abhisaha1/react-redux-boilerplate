@@ -7,6 +7,7 @@ import Sidebar from "../components/sidebar/Sidebar";
 import Navbar from "../components/Navbar";
 import Login from "./Login";
 import Home from "./Home";
+import Process from "./Process";
 import ValidateUser from "../components/ValidateUser";
 import "../../public/scss/style.scss";
 
@@ -27,6 +28,7 @@ class App extends Component {
                     <Route path="/admin" component={Sidebar} />
 
                     <Route exact path="/admin/home" component={Home} />
+                    <Route exact path="/admin/process" component={Process} />
                 </div>
             </div>
         );
@@ -49,4 +51,5 @@ const mapDispatchToProps = dispatch => {
         dispatch
     );
 };
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+//export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

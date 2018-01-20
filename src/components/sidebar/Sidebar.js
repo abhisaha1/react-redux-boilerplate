@@ -12,8 +12,7 @@ export default class Sidebar extends Component {
                     icon: "",
                     action: "/admin/home"
                 },
-                { name: "Process Insights", icon: "", action: "" },
-                { name: "Process Insights", icon: "", action: "" }
+                { name: "Process Insights", icon: "", action: "/admin/process" }
             ]
         };
     }
